@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Average Gaming Score Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            width: 400px;
+            text-align: center;
+        }
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        p {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #8f3e97; /* Purple background for headers */
+            color: #fff; /* White text color */
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f7d6e0; /* Pastel pink background for even rows */
+        }
+        tr:hover {
+            background-color: #e9c7d8; /* Lighter hover color for rows */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Average Gaming Score Calculator</h2>
+        <p>Enter gaming session scores separated by commas:</p>
+        <input type="text" id="scoreInput" placeholder="Enter scores">
+        <button onclick="calculateAverage()">Calculate Average</button>
+        <p id="averageResult"></p>
+
+        <table id="scoreTable">
+            <thead>
+                <tr>
+                    <th>Session</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be dynamically added here -->
+            </tbody>
+        </table>
+
+        <script>
+            function calculateAverage() {
+                const scoreInput = document.getElementById('scoreInput').value.trim();
+                const scores = scoreInput.split(',').map(score => parseInt(score.trim(), 10));
+
+                if (scoreInput === '' || isNaN(scores[0])) {
+                    alert('Please enter valid scores separated by commas.');
+                    return;
+                }
+
+                const sum = scores.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+                const average = sum / scores.length;
+
+                document.getElementById('averageResult').textContent = `Average score: ${average.toFixed(2)}`;
+
+                // Clear previous table rows
+                const tbody = document.querySelector('#scoreTable tbody');
+                tbody.innerHTML = '';
+
+                // Populate table with session scores
+                scores.forEach((score, index) => {
+                    const sessionNumber = index + 1;
+                    const row = `<tr>
+                                    <td>Session ${sessionNumber}</td>
+                                    <td>${score}</td>
+                                </tr>`;
+                    tbody.innerHTML += row;
+                });
+            }
+        </script>
+    </div>
+</body>
+</html>
